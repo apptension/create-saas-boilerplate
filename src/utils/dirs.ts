@@ -3,7 +3,7 @@ import { join } from 'node:path';
 
 import { ensureDirSync, removeSync, pathExistsSync } from 'fs-extra';
 
-export const isEmptyDir = async (path: string) => {
+export const isEmptyDir = async (path: string): Promise<boolean> => {
   try {
     const directory = await fs.opendir(path);
     const entry = await directory.read();
@@ -25,7 +25,7 @@ export const prepareInitDirectory = async (directoryName: string): Promise<strin
   return cloneDir;
 };
 
-export const removeGit = async (directoryName: string) => {
+export const removeGit = async (directoryName: string): Promise<void> => {
   const gitDir = join(directoryName, '.git');
 
   if (pathExistsSync(gitDir)) {
