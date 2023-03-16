@@ -2,7 +2,7 @@ import { Args, Command, ux } from '@oclif/core';
 import { CleanOptions, SimpleGit, simpleGit } from 'simple-git';
 
 import { PROJECT_NAME, REPOSITORY_URL } from '../../config';
-import { prepareInitDirectory } from '../../utils/dirs';
+import {prepareInitDirectory, removeGit} from '../../utils/dirs';
 
 export default class Init extends Command {
   static description = `Initialize new ${PROJECT_NAME} project`;
@@ -24,6 +24,7 @@ export default class Init extends Command {
     ux.action.start('Start cloning repository...');
     const git: SimpleGit = simpleGit().clean(CleanOptions.FORCE);
     await git.clone(REPOSITORY_URL, path);
+    await removeGit(path);
     ux.action.stop();
 
     this.log('Enjoy!');
