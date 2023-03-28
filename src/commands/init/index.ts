@@ -4,6 +4,7 @@ import { CleanOptions, SimpleGit, simpleGit } from 'simple-git';
 import { PROJECT_NAME, REPOSITORY_URL } from '../../config';
 import { prepareInitDirectory, removeGit } from '../../utils/dirs';
 import { checkSystemReqs } from '../../utils/system-check';
+import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from './env-loader';
 
 export default class Init extends Command {
   static description = `Initialize new ${PROJECT_NAME} project`;
@@ -21,31 +22,61 @@ export default class Init extends Command {
   async run(): Promise<void> {
     const { args, flags } = await this.parse(Init);
 
-    let systemCheck = true;
     if (flags.skipSystemCheck) {
       this.log('System check skipped!');
     } else {
-      try {
-        systemCheck = await checkSystemReqs(this);
-      } catch {
-        systemCheck = false;
-      }
+      await this.runSystemCheck();
+    }
+
+    const cloneDir = await prepareInitDirectory(args.path);
+    this.log(`Project will be initialized in directory: ${cloneDir}`);
+
+    await this.cloneProject(cloneDir);
+    await this.loadEnvs(cloneDir);
+
+    this.log('Enjoy!');
+    this.exit();
+  }
+
+  private async runSystemCheck(): Promise<void> {
+    let systemCheck;
+
+    try {
+      systemCheck = await checkSystemReqs(this);
+    } catch {
+      systemCheck = false;
     }
 
     if (!systemCheck) {
       this.error('System check failed! Check and install components from above list or use --skipSystemCheck flag');
       this.exit(1);
     }
+  }
 
-    const path = await prepareInitDirectory(args.path);
-    this.log(`Project will be initialized in directory: ${path}`);
-
+  private async cloneProject(cloneDir: string): Promise<void> {
     ux.action.start('Start cloning repository');
-    const git: SimpleGit = simpleGit().clean(CleanOptions.FORCE);
-    await git.clone(REPOSITORY_URL, path);
-    await removeGit(path);
-    ux.action.stop();
 
-    this.log('Enjoy!');
+    const git: SimpleGit = simpleGit().clean(CleanOptions.FORCE);
+    await git.clone(REPOSITORY_URL, cloneDir);
+    await removeGit(cloneDir);
+
+    ux.action.stop();
+  }
+
+  private async loadEnvs(projectPath: string): Promise<void> {
+    ux.action.start('Setup env variables');
+
+    const envLoaders: Array<EnvLoader> = [
+      new RootEnvLoader(),
+      new BackendEnvLoader(),
+      new WorkersEnvLoader(),
+      new WebappEnvLoader(),
+    ];
+
+    for (const loader of envLoaders) {
+      await loader.load(projectPath); // eslint-disable-line no-await-in-loop
+    }
+
+    ux.action.stop();
   }
 }

@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs';
 import { join } from 'node:path';
 
-import { ensureDirSync, removeSync, pathExistsSync } from 'fs-extra';
+import { ensureDirSync, pathExistsSync, removeSync } from 'fs-extra';
 
 export const isEmptyDir = async (path: string): Promise<boolean> => {
   try {
@@ -31,4 +31,39 @@ export const removeGit = async (directoryName: string): Promise<void> => {
   if (pathExistsSync(gitDir)) {
     removeSync(gitDir);
   }
-}
+};
+
+export const readEnvFile = async (envFilePath: string, required = false): Promise<Buffer | null> => {
+  try {
+    await fs.lstat(envFilePath);
+  } catch {
+    if (required) {
+      console.error(`${envFilePath} file does not exists. Searched path: ${envFilePath}`);
+      console.error("This error is most likely a user's misconfiguration (someone deleted or renamed the file)");
+    }
+
+    return null;
+  }
+
+  return fs.readFile(envFilePath);
+};
+
+export const parseEnvFile = (contents: Buffer | null): Record<string, unknown> => {
+  if (!contents) {
+    return {};
+  }
+
+  const lines = contents.toString().split('\n');
+  let result = {};
+
+  for (const line of lines) {
+    const pattern = new RegExp(/(.+)=(.+)/);
+    const groups = line.match(pattern);
+
+    if (groups) {
+      result = { ...result, [groups[1]]: groups[2] };
+    }
+  }
+
+  return result;
+};
