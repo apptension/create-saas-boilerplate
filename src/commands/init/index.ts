@@ -16,7 +16,7 @@ export default class Init extends Command {
   };
 
   static args = {
-    path: Args.string({ description: 'Directory name where to initialize project', required: true }),
+    path: Args.string({ description: 'Directory name where to initialize project', required: true, default: '.' }),
   };
 
   async run(): Promise<void> {

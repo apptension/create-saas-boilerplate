@@ -1,15 +1,15 @@
 {
-  "name": "@apptension/saas-boilerplate-cli",
+  "name": "create-saas-boilerplate",
   "version": "0.0.0",
-  "description": "SaaS Boilerplate by Apptension CLI",
+  "description": "Create new SaaS Boilerplate instance CLI tool",
   "author": "Apptension sp. z o.o.",
   "bin": {
-    "saas-boilerplate-cli": "./bin/run"
+    "create-saas-boilerplate": "./bin/run"
   },
-  "homepage": "https://github.com/apptension/saas-boilerplate-cli",
+  "homepage": "https://github.com/apptension/create-saas-boilerplate",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "apptension/saas-boilerplate-cli",
+  "repository": "apptension/create-saas-boilerplate",
   "files": [
     "/bin",
     "/dist",
@@ -57,9 +57,10 @@
     "typescript": "^4.9.5"
   },
   "oclif": {
-    "bin": "@apptension/saas-boilerplate-cli",
-    "dirname": "@apptension/saas-boilerplate-cli",
+    "bin": "create-saas-boilerplate",
+    "dirname": "create-saas-boilerplate",
     "commands": "./dist/commands",
+    "default": "init",
     "plugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-version"
@@ -83,7 +84,7 @@
   "engines": {
     "node": ">=16.14.0"
   },
-  "bugs": "https://github.com/apptension/saas-boilerplate-cli/issues",
+  "bugs": "https://github.com/apptension/create-saas-boilerplate/issues",
   "keywords": [
     "oclif"
   ],
