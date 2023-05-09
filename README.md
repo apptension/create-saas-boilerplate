@@ -1,9 +1,9 @@
 Create SaaS Boilerplate
 =================
 
-[![Version](https://img.shields.io/npm/v/oclif-hello-world.svg?style=for-the-badge&logo=npm)](https://npmjs.org/package/oclif-hello-world)
-[![Downloads/week](https://img.shields.io/npm/dw/oclif-hello-world.svg?style=for-the-badge)](https://npmjs.org/package/oclif-hello-world)
-[![License](https://img.shields.io/npm/l/oclif-hello-world.svg?style=for-the-badge)](https://github.com/apptension/saas-boilerplate-cli/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/create-saas-boilerplate.svg?style=for-the-badge&logo=npm)](https://npmjs.org/package/create-saas-boilerplate)
+[![Downloads/week](https://img.shields.io/npm/dw/create-saas-boilerplate.svg?style=for-the-badge)](https://npmjs.org/package/create-saas-boilerplate)
+[![License](https://img.shields.io/npm/l/create-saas-boilerplate.svg?style=for-the-badge)](https://github.com/apptension/create-saas-boilerplate/blob/master/package.json)
 
 <!-- toc -->
 * [Usage](#usage)
@@ -51,20 +51,20 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.7
 
 ## `create-saas-boilerplate init PATH`
 
-Initialize new SaaS Boilerplate by Apptension project
+Initialize new SaaS Boilerplate project
 
 ```
 USAGE
   $ create-saas-boilerplate init PATH [--skipSystemCheck]
 
 ARGUMENTS
-  PATH  Directory name where to initialize project
+  PATH  [default: .] Directory name where to initialize project
 
 FLAGS
   --skipSystemCheck  Skip system check
 
 DESCRIPTION
-  Initialize new SaaS Boilerplate by Apptension project
+  Initialize new SaaS Boilerplate project
 
 EXAMPLES
   $ create-saas-boilerplate init

@@ -86,7 +86,10 @@
   },
   "bugs": "https://github.com/apptension/create-saas-boilerplate/issues",
   "keywords": [
-    "oclif"
+    "saas",
+    "boilerplate",
+    "startup",
+    "apptension"
   ],
   "types": "dist/index.d.ts",
   "husky": {
