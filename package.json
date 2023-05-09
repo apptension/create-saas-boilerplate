@@ -1,6 +1,6 @@
 {
   "name": "create-saas-boilerplate",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Create new SaaS Boilerplate instance CLI tool",
   "author": "Apptension sp. z o.o.",
   "bin": {

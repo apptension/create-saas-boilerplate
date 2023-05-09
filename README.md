@@ -16,7 +16,7 @@ $ npm install -g create-saas-boilerplate
 $ create-saas-boilerplate COMMAND
 running command...
 $ create-saas-boilerplate (--version)
-create-saas-boilerplate/0.0.0 darwin-x64 node-v18.4.0
+create-saas-boilerplate/0.0.1 darwin-x64 node-v18.4.0
 $ create-saas-boilerplate --help [COMMAND]
 USAGE
   $ create-saas-boilerplate COMMAND
@@ -70,7 +70,7 @@ EXAMPLES
   $ create-saas-boilerplate init
 ```
 
-_See code: [dist/commands/init/index.ts](https://github.com/apptension/create-saas-boilerplate/blob/v0.0.0/dist/commands/init/index.ts)_
+_See code: [dist/commands/init/index.ts](https://github.com/apptension/create-saas-boilerplate/blob/v0.0.1/dist/commands/init/index.ts)_
 
 ## `create-saas-boilerplate version`
 
