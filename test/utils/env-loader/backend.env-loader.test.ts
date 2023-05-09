@@ -6,8 +6,8 @@ import chaiAsPromised from 'chai-as-promised';
 import * as sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import { BackendEnvLoader } from '../../../src/commands/init/env-loader';
 import * as dirsUtils from '../../../src/utils/dirs';
+import { BackendEnvLoader } from '../../../src/utils/env-loader';
 
 chai.use(sinonChai);
 chai.use(chaiAsPromised);

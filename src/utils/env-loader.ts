@@ -3,7 +3,7 @@ import { join } from 'node:path';
 
 import { ux } from '@oclif/core';
 
-import { parseEnvFile, readEnvFile } from '../../utils/dirs';
+import { parseEnvFile, readEnvFile } from './dirs';
 
 export abstract class EnvLoader {
   protected static ENV_SHARED_FILE = '.env.shared';

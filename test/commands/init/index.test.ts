@@ -6,13 +6,8 @@ import * as simpleGit from 'simple-git';
 import { SimpleGit } from 'simple-git';
 import * as sinon from 'sinon';
 
-import {
-  BackendEnvLoader,
-  RootEnvLoader,
-  WebappEnvLoader,
-  WorkersEnvLoader,
-} from '../../../src/commands/init/env-loader';
 import * as dirsUtils from '../../../src/utils/dirs';
+import { BackendEnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../../src/utils/env-loader';
 import * as systemCheck from '../../../src/utils/system-check';
 
 describe('init', () => {

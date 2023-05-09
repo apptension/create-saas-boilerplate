@@ -3,8 +3,8 @@ import { CleanOptions, SimpleGit, simpleGit } from 'simple-git';
 
 import { PROJECT_NAME, REPOSITORY_URL } from '../../config';
 import { prepareInitDirectory, removeGit } from '../../utils/dirs';
+import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../utils/env-loader';
 import { checkSystemReqs } from '../../utils/system-check';
-import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from './env-loader';
 
 export default class Init extends Command {
   static description = `Initialize new ${PROJECT_NAME} project`;
