@@ -1,7 +1,7 @@
 import { Args, Command, Flags, ux } from '@oclif/core';
 import { CleanOptions, SimpleGit, simpleGit } from 'simple-git';
 
-import { PROJECT_NAME, REPOSITORY_URL } from '../../config';
+import { DOCS_URL, LANDING_URL, PROJECT_NAME, REPOSITORY_URL } from '../../config';
 import { prepareInitDirectory, removeGit } from '../../utils/dirs';
 import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../utils/env-loader';
 import { checkSystemReqs } from '../../utils/system-check';
@@ -34,7 +34,9 @@ export default class Init extends Command {
     await this.cloneProject(cloneDir);
     await this.loadEnvs(cloneDir);
 
-    this.log('Enjoy!');
+    const startAppMsg = this.getStartAppMessage();
+    this.log(startAppMsg);
+
     this.exit();
   }
 
@@ -78,5 +80,44 @@ export default class Init extends Command {
     }
 
     ux.action.stop();
+  }
+
+  private getStartAppMessage(): string {
+    return `
+——————————————————————————————————————————————————————————————————————————————————————————————————————
+Initialization completed! 🚀 To start the application, please refer to the following commands:
+
+| \u001B[1mStart backend:\u001B[0m
+|
+| \u001B[34mnx run core:docker-compose:up\u001B[0m
+|
+| or a shorter version:
+|
+| \u001B[34mmake up\u001B[0m
+|
+| This will run docker containers for all the backend services in the detached mode.
+|
+| Backend is running on \u001B[34mhttp://localhost:5001\u001B[0m.
+|
+| Admin Panel is running on \u001B[34mhttp://admin.localhost:5001\u001B[0m.
+|
+| Mailcatcher is running on \u001B[34mhttp://localhost:1080\u001B[0m.
+|
+| \u001B[1mStart webapp:\u001B[0m
+|
+| \u001B[34mnx start webapp\u001B[0m
+|
+| Web app is running on \u001B[34mhttp://localhost:3000\u001B[0m.
+|
+| \u001B[1mStart documentation:\u001B[0m
+|
+| \u001B[34mnx start docs\u001B[0m
+|
+| Docs app is running on \u001B[34mhttp://localhost:3006\u001B[0m.
+
+📖 Official documentation: ${DOCS_URL}
+🌟 SaaS Boilerplate page: ${LANDING_URL}
+——————————————————————————————————————————————————————————————————————————————————————————————————————
+    `;
   }
 }
