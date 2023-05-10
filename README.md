@@ -5,11 +5,38 @@ Create SaaS Boilerplate
 [![Downloads/week](https://img.shields.io/npm/dw/create-saas-boilerplate.svg?style=for-the-badge)](https://npmjs.org/package/create-saas-boilerplate)
 [![License](https://img.shields.io/npm/l/create-saas-boilerplate.svg?style=for-the-badge)](https://github.com/apptension/create-saas-boilerplate/blob/master/package.json)
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
+Create SaaS Boilerplate is a CLI tool designed to quickly set up a new local instance of the SaaS Boilerplate. It is a specialized tool that allows users to get started with the SaaS Boilerplate as quickly as possible. 
+
+---
+
+📖 [**SaaS Boilerplate Documentation**](https://docs.demo.saas.apptoku.com/)
+
+🌟 [**SaaS Boilerplate Page**](https://www.apptension.com/saas-boilerplate)
+
+---
+
+## Initialize new SaaS Boilerplate project
+
+```
+USAGE
+  $ yarn create saas-boilerplate PATH [--skipSystemCheck]
+  $ pnpm create saas-boilerplate PATH [--skipSystemCheck]
+  $ npm init saas-boilerplate PATH [--skipSystemCheck]
+ARGUMENTS
+  PATH  [default: .] Directory name where to initialize project
+FLAGS
+  --skipSystemCheck  Skip system check
+DESCRIPTION
+  Initialize new SaaS Boilerplate project
+```
+_See code: [dist/commands/init/index.ts](https://github.com/apptension/create-saas-boilerplate/blob/v0.0.1/dist/commands/init/index.ts)_
+
+## Usage
+
+The usage for Create SaaS Boilerplate starts with installing the tool globally using npm. Once the tool is installed, it can be used by running the command `create-saas-boilerplate` followed by a specific command or flag. This will run the specified command and perform the necessary actions.
+- If the `--version` flag is used, the tool will display the version number for the Create SaaS Boilerplate, along with information about the platform it is running on.
+- If the `--help` flag is used, the tool will display general usage information along with a list of available commands.
+
 <!-- usage -->
 ```sh-session
 $ npm install -g create-saas-boilerplate
@@ -23,10 +50,10 @@ USAGE
 ...
 ```
 <!-- usagestop -->
-# Commands
+
+## Commands
 <!-- commands -->
 * [`create-saas-boilerplate help [COMMANDS]`](#create-saas-boilerplate-help-commands)
-* [`create-saas-boilerplate init PATH`](#create-saas-boilerplate-init-path)
 * [`create-saas-boilerplate version`](#create-saas-boilerplate-version)
 
 ## `create-saas-boilerplate help [COMMANDS]`
@@ -48,29 +75,6 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.7/src/commands/help.ts)_
-
-## `create-saas-boilerplate init PATH`
-
-Initialize new SaaS Boilerplate project
-
-```
-USAGE
-  $ create-saas-boilerplate init PATH [--skipSystemCheck]
-
-ARGUMENTS
-  PATH  [default: .] Directory name where to initialize project
-
-FLAGS
-  --skipSystemCheck  Skip system check
-
-DESCRIPTION
-  Initialize new SaaS Boilerplate project
-
-EXAMPLES
-  $ create-saas-boilerplate init
-```
-
-_See code: [dist/commands/init/index.ts](https://github.com/apptension/create-saas-boilerplate/blob/v0.0.1/dist/commands/init/index.ts)_
 
 ## `create-saas-boilerplate version`
 
