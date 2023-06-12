@@ -1,5 +1,5 @@
 import { Args, Command, Flags, ux } from '@oclif/core';
-import { CleanOptions, SimpleGit, simpleGit } from 'simple-git';
+import { SimpleGit, simpleGit } from 'simple-git';
 
 import { DOCS_URL, LANDING_URL, PROJECT_NAME, REPOSITORY_URL } from '../../config';
 import { prepareInitDirectory, removeGit } from '../../utils/dirs';
@@ -58,7 +58,7 @@ export default class Init extends Command {
   private async cloneProject(cloneDir: string): Promise<void> {
     ux.action.start('Start cloning repository');
 
-    const git: SimpleGit = simpleGit().clean(CleanOptions.FORCE);
+    const git: SimpleGit = simpleGit();
     await git.clone(REPOSITORY_URL, cloneDir);
     await removeGit(cloneDir);
 
