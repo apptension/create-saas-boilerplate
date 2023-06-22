@@ -1,7 +1,9 @@
+import fetch from 'node-fetch';
+
 import { Args, Command, Flags, ux } from '@oclif/core';
 import { SimpleGit, simpleGit } from 'simple-git';
 
-import { DOCS_URL, LANDING_URL, PROJECT_NAME, REPOSITORY_URL } from '../../config';
+import { DOCS_URL, GH_REPO_NAME, GH_REPO_OWNER, LANDING_URL, PROJECT_NAME, REPOSITORY_URL } from '../../config';
 import { prepareInitDirectory, removeGit } from '../../utils/dirs';
 import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../utils/env-loader';
 import { checkSystemReqs } from '../../utils/system-check';
@@ -31,7 +33,9 @@ export default class Init extends Command {
     const cloneDir = await prepareInitDirectory(args.path);
     this.log(`Project will be initialized in directory: ${cloneDir}`);
 
-    await this.cloneProject(cloneDir);
+    const releaseTag = await this.fetchLatestRelease();
+
+    await this.cloneProject(cloneDir, releaseTag);
     await this.loadEnvs(cloneDir);
 
     const startAppMsg = this.getStartAppMessage();
@@ -55,11 +59,21 @@ export default class Init extends Command {
     }
   }
 
-  private async cloneProject(cloneDir: string): Promise<void> {
+  private async fetchLatestRelease(): Promise<string> {
+    ux.action.start('Fetching latest release');
+    const response = await fetch(`https://api.github.com/repos/${GH_REPO_OWNER}/${GH_REPO_NAME}/releases/latest`);
+    const release = await response.json();
+    ux.action.stop();
+    const tagName = release.tag_name;
+    this.log(`Latest release: ${tagName}`);
+    return tagName;
+  }
+
+  private async cloneProject(cloneDir: string, releaseTag: string): Promise<void> {
     ux.action.start('Start cloning repository');
 
     const git: SimpleGit = simpleGit();
-    await git.clone(REPOSITORY_URL, cloneDir);
+    await git.clone(REPOSITORY_URL, cloneDir, ['-b', releaseTag, '--single-branch']);
     await removeGit(cloneDir);
 
     ux.action.stop();

@@ -4,7 +4,7 @@
   "singleQuote": true,
   "trailingComma": "es5",
   "importOrder": [
-    "^(path|dns|node)/?",
+    "^(path|dns|node:)/?",
     "<THIRD_PARTY_MODULES>",
     "^(commands|config)/?",
     "^[./]"
