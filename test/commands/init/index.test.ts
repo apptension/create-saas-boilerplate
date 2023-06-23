@@ -2,10 +2,13 @@ import fs from 'node:fs';
 
 import { ux } from '@oclif/core';
 import { test } from '@oclif/test';
+import { Response } from 'node-fetch';
+import * as fetchModule from 'node-fetch';
 import * as simpleGit from 'simple-git';
 import { SimpleGit } from 'simple-git';
 import * as sinon from 'sinon';
 
+import { GH_REPO_NAME, GH_REPO_OWNER } from '../../../src/config';
 import * as dirsUtils from '../../../src/utils/dirs';
 import { BackendEnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../../src/utils/env-loader';
 import * as systemCheck from '../../../src/utils/system-check';
@@ -17,6 +20,7 @@ describe('init', () => {
   let webappEnvLoaderStub: sinon.SinonStub;
 
   let simpleGitStub: sinon.SinonStub;
+  let fetchStub: sinon.SinonStub;
 
   beforeEach(() => {
     sinon.stub(ux, 'prompt');
@@ -26,12 +30,22 @@ describe('init', () => {
 
     simpleGitStub = sinon.stub(simpleGit, 'simpleGit').callsFake(() => {
       return {
-        clean: () => {
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          return { clone: () => {} };
-        },
+        clone: () => Promise.resolve(),
       } as unknown as SimpleGit;
     });
+
+    const tagName = '1.0.0';
+    fetchStub = sinon.stub(fetchModule, 'default').callsFake(() =>
+      Promise.resolve(
+        new Response(
+          JSON.stringify({
+            // eslint-disable-next-line camelcase
+            tag_name: tagName,
+          }),
+          { status: 200 }
+        )
+      )
+    );
 
     backendEnvLoaderStub = sinon
       .stub(BackendEnvLoader.prototype, 'getSharedEnvsContent')
@@ -82,6 +96,17 @@ describe('init', () => {
     .exit(0)
     .it('clones git repository', () => {
       sinon.assert.calledOnceWithExactly(simpleGitStub);
+    });
+
+  test
+    .stub(systemCheck, 'checkSystemReqs', sinon.stub().resolves(true))
+    .command(['init', 'path'])
+    .exit(0)
+    .it('calls fetch for latest release tag', () => {
+      sinon.assert.calledOnceWithExactly(
+        fetchStub,
+        `https://api.github.com/repos/${GH_REPO_OWNER}/${GH_REPO_NAME}/releases/latest`
+      );
     });
 
   test
