@@ -1,6 +1,7 @@
-import fetch from 'node-fetch';
+import * as childProcess from 'node:child_process';
 
 import { Args, Command, Flags, ux } from '@oclif/core';
+import fetch from 'node-fetch';
 import { SimpleGit, simpleGit } from 'simple-git';
 
 import { DOCS_URL, GH_REPO_NAME, GH_REPO_OWNER, LANDING_URL, PROJECT_NAME, REPOSITORY_URL } from '../../config';
@@ -37,6 +38,7 @@ export default class Init extends Command {
 
     await this.cloneProject(cloneDir, releaseTag);
     await this.loadEnvs(cloneDir);
+    await this.installDeps(cloneDir);
 
     const startAppMsg = this.getStartAppMessage();
     this.log(startAppMsg);
@@ -72,9 +74,10 @@ export default class Init extends Command {
   private async cloneProject(cloneDir: string, releaseTag: string): Promise<void> {
     ux.action.start('Start cloning repository');
 
-    const git: SimpleGit = simpleGit();
+    const git: SimpleGit = simpleGit(cloneDir);
     await git.clone(REPOSITORY_URL, cloneDir, ['-b', releaseTag, '--single-branch']);
     await removeGit(cloneDir);
+    await git.init();
 
     ux.action.stop();
   }
@@ -96,6 +99,12 @@ export default class Init extends Command {
     ux.action.stop();
   }
 
+  private async installDeps(cloneDir: string): Promise<void> {
+    ux.action.start('Installing dependencies');
+    childProcess.execSync('pnpm i --frozen-lockfile', { cwd: cloneDir, stdio: [0, 1, 2] });
+    ux.action.stop();
+  }
+
   private getStartAppMessage(): string {
     return `
 ——————————————————————————————————————————————————————————————————————————————————————————————————————
@@ -103,7 +112,7 @@ Initialization completed! 🚀 To start the application, please refer to the fol
 
 | \u001B[1mStart backend:\u001B[0m
 |
-| \u001B[34mnx run core:docker-compose:up\u001B[0m
+| \u001B[34mpnpm nx run core:docker-compose:up\u001B[0m
 |
 | or a shorter version:
 |
@@ -119,13 +128,13 @@ Initialization completed! 🚀 To start the application, please refer to the fol
 |
 | \u001B[1mStart webapp:\u001B[0m
 |
-| \u001B[34mnx start webapp\u001B[0m
+| \u001B[34mpnpm nx start webapp\u001B[0m
 |
 | Web app is running on \u001B[34mhttp://localhost:3000\u001B[0m.
 |
 | \u001B[1mStart documentation:\u001B[0m
 |
-| \u001B[34mnx start docs\u001B[0m
+| \u001B[34mpnpm nx start docs\u001B[0m
 |
 | Docs app is running on \u001B[34mhttp://localhost:3006\u001B[0m.
 
