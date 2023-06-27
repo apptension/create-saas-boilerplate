@@ -1,3 +1,4 @@
+import childProcess from 'node:child_process';
 import fs from 'node:fs';
 
 import { ux } from '@oclif/core';
@@ -21,6 +22,7 @@ describe('init', () => {
 
   let simpleGitStub: sinon.SinonStub;
   let fetchStub: sinon.SinonStub;
+  let childProcessStub: sinon.SinonStub;
 
   beforeEach(() => {
     sinon.stub(ux, 'prompt');
@@ -31,6 +33,7 @@ describe('init', () => {
     simpleGitStub = sinon.stub(simpleGit, 'simpleGit').callsFake(() => {
       return {
         clone: () => Promise.resolve(),
+        init: () => Promise.resolve(),
       } as unknown as SimpleGit;
     });
 
@@ -84,6 +87,8 @@ describe('init', () => {
             'VITE_STRIPE_PUBLISHABLE_KEY=<CHANGE_ME>'
         )
       );
+
+    childProcessStub = sinon.stub(childProcess, 'execSync').callsFake(() => '');
   });
 
   afterEach(() => {
@@ -95,7 +100,7 @@ describe('init', () => {
     .command(['init', 'path'])
     .exit(0)
     .it('clones git repository', () => {
-      sinon.assert.calledOnceWithExactly(simpleGitStub);
+      sinon.assert.calledOnceWithExactly(simpleGitStub, '/path');
     });
 
   test
@@ -107,6 +112,17 @@ describe('init', () => {
         fetchStub,
         `https://api.github.com/repos/${GH_REPO_OWNER}/${GH_REPO_NAME}/releases/latest`
       );
+    });
+
+  test
+    .stub(systemCheck, 'checkSystemReqs', sinon.stub().resolves(true))
+    .command(['init', 'path'])
+    .exit(0)
+    .it('clones git repository', () => {
+      sinon.assert.calledOnceWithExactly(childProcessStub, 'pnpm i --frozen-lockfile', {
+        cwd: '/path',
+        stdio: [0, 1, 2],
+      });
     });
 
   test
