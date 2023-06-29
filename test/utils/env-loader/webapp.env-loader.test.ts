@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { join } from 'node:path';
 
 import { ux } from '@oclif/core';
 import chai, { expect } from 'chai';
@@ -38,7 +39,7 @@ describe('WebappEnvLoader', () => {
 
   it('should load webapp package default envs', async () => {
     await webappEnvLoader.load('path');
-    sinon.assert.calledOnceWithExactly(readEnvFileMock, 'path/packages/webapp/.env.shared', true);
+    sinon.assert.calledOnceWithExactly(readEnvFileMock, join('path', 'packages', 'webapp', '.env.shared'), true);
   });
 
   it('should save env value from prompt', async () => {
@@ -48,7 +49,7 @@ describe('WebappEnvLoader', () => {
 
     await webappEnvLoader.load('path');
 
-    sinon.assert.calledOnceWithExactly(writeFileStub, 'path/packages/webapp/.env', expectedContent);
+    sinon.assert.calledOnceWithExactly(writeFileStub, join('path', 'packages', 'webapp', '.env'), expectedContent);
   });
 
   it('should raise error if no default envs found', async () => {

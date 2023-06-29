@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { join } from 'node:path';
 
 import { ux } from '@oclif/core';
 import chai, { expect } from 'chai';
@@ -42,7 +43,7 @@ describe('BackendEnvLoader', () => {
 
   it('should load backend package default envs', async () => {
     await backendEnvLoader.load('path');
-    sinon.assert.calledOnceWithExactly(readEnvFileMock, 'path/packages/backend/.env.shared', true);
+    sinon.assert.calledOnceWithExactly(readEnvFileMock, join('path', 'packages', 'backend', '.env.shared'), true);
   });
 
   it('should save env value from prompt', async () => {
@@ -58,7 +59,7 @@ describe('BackendEnvLoader', () => {
 
     await backendEnvLoader.load('path');
 
-    sinon.assert.calledOnceWithExactly(writeFileStub, 'path/packages/backend/.env', expectedContent);
+    sinon.assert.calledOnceWithExactly(writeFileStub, join('path', 'packages', 'backend', '.env'), expectedContent);
   });
 
   it('should raise error if no default envs found', async () => {
