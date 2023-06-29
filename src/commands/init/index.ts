@@ -1,10 +1,13 @@
 import * as childProcess from 'node:child_process';
+import { Readable } from 'node:stream';
+import { finished } from 'node:stream/promises';
 
 import { Args, Command, Flags, ux } from '@oclif/core';
 import fetch from 'node-fetch';
 import { SimpleGit, simpleGit } from 'simple-git';
+import tar from 'tar';
 
-import { DOCS_URL, GH_REPO_NAME, GH_REPO_OWNER, LANDING_URL, PROJECT_NAME, REPOSITORY_URL } from '../../config';
+import { DOCS_URL, GH_REPO_NAME, GH_REPO_OWNER, LANDING_URL, PROJECT_NAME } from '../../config';
 import { prepareInitDirectory, removeGit } from '../../utils/dirs';
 import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../utils/env-loader';
 import { checkSystemReqs } from '../../utils/system-check';
@@ -34,9 +37,9 @@ export default class Init extends Command {
     const cloneDir = await prepareInitDirectory(args.path);
     this.log(`Project will be initialized in directory: ${cloneDir}`);
 
-    const releaseTag = await this.fetchLatestRelease();
+    const latestRelease = await this.fetchLatestRelease();
 
-    await this.cloneProject(cloneDir, releaseTag);
+    await this.downloadProject(cloneDir, latestRelease.tarballUrl);
     await this.loadEnvs(cloneDir);
     await this.installDeps(cloneDir);
 
@@ -61,21 +64,34 @@ export default class Init extends Command {
     }
   }
 
-  private async fetchLatestRelease(): Promise<string> {
+  private async fetchLatestRelease(): Promise<{ tagName: string; tarballUrl: string }> {
     ux.action.start('Fetching latest release');
     const response = await fetch(`https://api.github.com/repos/${GH_REPO_OWNER}/${GH_REPO_NAME}/releases/latest`);
     const release = await response.json();
     ux.action.stop();
     const tagName = release.tag_name;
     this.log(`Latest release: ${tagName}`);
-    return tagName;
+    return {
+      tagName,
+      tarballUrl: release.tarball_url,
+    };
   }
 
-  private async cloneProject(cloneDir: string, releaseTag: string): Promise<void> {
-    ux.action.start('Start cloning repository');
+  private async downloadProject(cloneDir: string, tarballUrl: string): Promise<void> {
+    ux.action.start('Downloading project');
+
+    const res = await fetch(tarballUrl);
+
+    await finished(
+      Readable.from(res.body).pipe(
+        tar.extract({
+          cwd: cloneDir,
+          strip: 1,
+        })
+      )
+    );
 
     const git: SimpleGit = simpleGit(cloneDir);
-    await git.clone(REPOSITORY_URL, cloneDir, ['-b', releaseTag, '--single-branch']);
     await removeGit(cloneDir);
     await git.init();
 
