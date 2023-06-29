@@ -1,13 +1,15 @@
 import childProcess from 'node:child_process';
 import fs from 'node:fs';
+import { PassThrough } from 'node:stream';
 
 import { ux } from '@oclif/core';
 import { test } from '@oclif/test';
-import { Response } from 'node-fetch';
+import { RequestInfo, Response } from 'node-fetch';
 import * as fetchModule from 'node-fetch';
 import * as simpleGit from 'simple-git';
 import { SimpleGit } from 'simple-git';
 import * as sinon from 'sinon';
+import tar from 'tar';
 
 import { GH_REPO_NAME, GH_REPO_OWNER } from '../../../src/config';
 import * as dirsUtils from '../../../src/utils/dirs';
@@ -22,7 +24,11 @@ describe('init', () => {
 
   let simpleGitStub: sinon.SinonStub;
   let fetchStub: sinon.SinonStub;
+  let tarExtractStub: sinon.SinonStub;
   let childProcessStub: sinon.SinonStub;
+
+  const tagName = '1.0.0';
+  const tarballUrl = 'url:tarball';
 
   beforeEach(() => {
     sinon.stub(ux, 'prompt');
@@ -32,23 +38,25 @@ describe('init', () => {
 
     simpleGitStub = sinon.stub(simpleGit, 'simpleGit').callsFake(() => {
       return {
-        clone: () => Promise.resolve(),
         init: () => Promise.resolve(),
       } as unknown as SimpleGit;
     });
 
-    const tagName = '1.0.0';
-    fetchStub = sinon.stub(fetchModule, 'default').callsFake(() =>
-      Promise.resolve(
-        new Response(
-          JSON.stringify({
-            // eslint-disable-next-line camelcase
-            tag_name: tagName,
-          }),
-          { status: 200 }
-        )
-      )
+    const releaseResponse = new Response(
+      JSON.stringify({
+        // eslint-disable-next-line camelcase
+        tag_name: tagName,
+        // eslint-disable-next-line camelcase
+        tarball_url: tarballUrl,
+      }),
+      { status: 200 }
     );
+    const tarballResponse = new Response('file_body', { status: 200 });
+    fetchStub = sinon.stub(fetchModule, 'default').callsFake((url: RequestInfo) => {
+      return Promise.resolve((url as string).includes('api.github.com') ? releaseResponse : tarballResponse);
+    });
+
+    tarExtractStub = sinon.stub(tar, 'extract').callsFake(() => new PassThrough().end().destroy());
 
     backendEnvLoaderStub = sinon
       .stub(BackendEnvLoader.prototype, 'getSharedEnvsContent')
@@ -108,10 +116,19 @@ describe('init', () => {
     .command(['init', 'path'])
     .exit(0)
     .it('calls fetch for latest release tag', () => {
-      sinon.assert.calledOnceWithExactly(
+      sinon.assert.calledWith(
         fetchStub,
         `https://api.github.com/repos/${GH_REPO_OWNER}/${GH_REPO_NAME}/releases/latest`
       );
+    });
+
+  test
+    .stub(systemCheck, 'checkSystemReqs', sinon.stub().resolves(true))
+    .command(['init', 'path'])
+    .exit(0)
+    .it('calls fetch tarball and save it to cloneDir', () => {
+      sinon.assert.calledWith(fetchStub, tarballUrl);
+      sinon.assert.calledWith(tarExtractStub, { cwd: '/path', strip: 1 });
     });
 
   test
