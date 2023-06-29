@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { join } from 'node:path';
 
 import { ux } from '@oclif/core';
 import chai, { expect } from 'chai';
@@ -38,7 +39,7 @@ describe('WorkersEnvLoader', () => {
 
   it('should load workers package default envs', async () => {
     await workersEnvLoader.load('path');
-    sinon.assert.calledOnceWithExactly(readEnvFileMock, 'path/packages/workers/.env.shared', true);
+    sinon.assert.calledOnceWithExactly(readEnvFileMock, join('path', 'packages', 'workers', '.env.shared'), true);
   });
 
   it('should save env value from prompt', async () => {
@@ -48,7 +49,7 @@ describe('WorkersEnvLoader', () => {
 
     await workersEnvLoader.load('path');
 
-    sinon.assert.calledOnceWithExactly(writeFileStub, 'path/packages/workers/.env', expectedContent);
+    sinon.assert.calledOnceWithExactly(writeFileStub, join('path', 'packages', 'workers', '.env'), expectedContent);
   });
 
   it('should raise error if no default envs found', async () => {
