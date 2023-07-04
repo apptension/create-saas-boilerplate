@@ -7,7 +7,15 @@ import fetch from 'node-fetch';
 import { SimpleGit, simpleGit } from 'simple-git';
 import tar from 'tar';
 
-import { DOCS_URL, GH_REPO_NAME, GH_REPO_OWNER, LANDING_URL, PROJECT_NAME } from '../../config';
+import {
+  DISCORD_URL,
+  DOCS_URL,
+  GH_REPO_NAME,
+  GH_REPO_OWNER,
+  GITHUB_REPOSITORY,
+  LANDING_URL,
+  PROJECT_NAME,
+} from '../../config';
 import { prepareInitDirectory, removeGit } from '../../utils/dirs';
 import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../utils/env-loader';
 import { checkSystemReqs } from '../../utils/system-check';
@@ -156,6 +164,8 @@ Initialization completed! 🚀 To start the application, please refer to the fol
 
 📖 Official documentation: ${DOCS_URL}
 🌟 SaaS Boilerplate page: ${LANDING_URL}
+🔗 Main repository: ${GITHUB_REPOSITORY}
+📣 Discord server: ${DISCORD_URL}
 ——————————————————————————————————————————————————————————————————————————————————————————————————————
     `;
   }

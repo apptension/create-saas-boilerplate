@@ -13,6 +13,8 @@ Create SaaS Boilerplate is a CLI tool designed to quickly set up a new local ins
 
 🌟 [**SaaS Boilerplate Page**](https://www.apptension.com/saas-boilerplate)
 
+🔗 [**SaaS Boilerplate Repository**](https://github.com/apptension/saas-boilerplate)
+
 ---
 
 ## Initialize new SaaS Boilerplate project
