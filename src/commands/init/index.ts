@@ -107,7 +107,9 @@ export default class Init extends Command {
   }
 
   private async loadEnvs(projectPath: string): Promise<void> {
-    ux.action.start('Setup env variables');
+    this.log(`Setup environment variables:
+This step will set up all environment variables.
+For more details visit: \u001B[34mhttps://docs.demo.saas.apptoku.com/api-reference/env\u001B[0m.\n`);
 
     const envLoaders: Array<EnvLoader> = [
       new RootEnvLoader(),
@@ -119,8 +121,6 @@ export default class Init extends Command {
     for (const loader of envLoaders) {
       await loader.load(projectPath); // eslint-disable-line no-await-in-loop
     }
-
-    ux.action.stop();
   }
 
   private async installDeps(cloneDir: string): Promise<void> {
