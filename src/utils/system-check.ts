@@ -2,7 +2,7 @@ import { Command } from '@oclif/core';
 import { Listr } from 'listr2';
 import which from 'which';
 
-const REQURED_COMMANDS = ['docker', 'pnpm', 'nx'];
+const REQURED_COMMANDS = ['docker', 'pnpm'];
 
 export const checkSystemReqs = async (command: Command): Promise<boolean> => {
   command.log('Performing system check:');
