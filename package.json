@@ -30,7 +30,7 @@
     "which": "^3.0.1"
   },
   "devDependencies": {
-    "@oclif/test": "^2.3.33",
+    "@oclif/test": "^2.4.5",
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@types/chai": "^4.3.4",
     "@types/chai-as-promised": "^7.1.5",
