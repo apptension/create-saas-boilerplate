@@ -676,10 +676,10 @@
     supports-color "^8.1.1"
     tslib "^2"
 
-"@oclif/core@^2.10.0", "@oclif/core@^2.9.3", "@oclif/core@^2.9.4":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.10.0.tgz#8fd4a46bdea2a45ccf090c1433e913ea454b0607"
-  integrity sha512-4csNtXBb+RKrhO2lBAwBvxuyk0B3NB45tAkSHOrJjUo1ufT+qpg9V+g7nHZBMlwoQmjlAjCOKtm6RHar8FrpZg==
+"@oclif/core@^2.10.0", "@oclif/core@^2.11.10", "@oclif/core@^2.9.3", "@oclif/core@^2.9.4":
+  version "2.11.10"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.11.10.tgz#638128034b8b4bdf4b23480a7278426f85130170"
+  integrity sha512-/7Umij3OU++6o+z4U+waJ5nP6IvK9KKEVzz+xsla68YoECLQwz43boUKqYizlNMtTfiwNkiYb5QE+OU/q5qEtA==
   dependencies:
     "@types/cli-progress" "^3.11.0"
     ansi-escapes "^4.3.2"
@@ -728,12 +728,12 @@
     "@oclif/core" "^2.9.4"
     fast-levenshtein "^3.0.0"
 
-"@oclif/plugin-version@^1.3.7":
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-version/-/plugin-version-1.3.7.tgz#5a858b66aaba454d2b622c07d6701c8587192704"
-  integrity sha512-OSap5pWHREaSmAM5ow1e4ukXwZdzKg7/Ezxc2UnxWMTRcT6GVwOpq1+l9nRCR8wj1UWuVW1rttdQXe7LSYWutA==
+"@oclif/plugin-version@^1.3.9":
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-version/-/plugin-version-1.3.9.tgz#35e7e23d12471b736b962ca92ad081da08a80cf2"
+  integrity sha512-hJpB8wMFqz3u580TQhXsiIV30AWCMI1Hs7FoBYhcfL86prJPNBybp5l6Kl0DjeeA01VK00kEBQDkEBKi9a7Z8w==
   dependencies:
-    "@oclif/core" "^2.9.3"
+    "@oclif/core" "^2.11.10"
 
 "@oclif/plugin-warn-if-update-available@^2.0.44":
   version "2.0.45"
