@@ -2,11 +2,12 @@ import * as childProcess from 'node:child_process';
 import { Readable } from 'node:stream';
 import { finished } from 'node:stream/promises';
 
-import { Args, Command, Flags, ux } from '@oclif/core';
+import { Args, Flags, ux } from '@oclif/core';
 import fetch from 'node-fetch';
 import { SimpleGit, simpleGit } from 'simple-git';
 import tar from 'tar';
 
+import { BaseCommand } from '../../base.command';
 import {
   DISCORD_URL,
   DOCS_URL,
@@ -20,7 +21,7 @@ import { prepareInitDirectory, removeGit } from '../../utils/dirs';
 import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../utils/env-loader';
 import { checkSystemReqs } from '../../utils/system-check';
 
-export default class Init extends Command {
+export default class Init extends BaseCommand {
   static description = `Initialize new ${PROJECT_NAME} project`;
 
   static examples = [`<%= config.bin %> <%= command.id %>`];
