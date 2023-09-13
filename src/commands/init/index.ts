@@ -39,8 +39,10 @@ export default class Init extends BaseCommand {
 
     if (flags.skipSystemCheck) {
       this.log('System check skipped!');
+      this.span?.addEvent('System check skipped');
     } else {
       await this.runSystemCheck();
+      this.span?.addEvent('System check passed');
     }
 
     const cloneDir = await prepareInitDirectory(args.path);
@@ -49,8 +51,11 @@ export default class Init extends BaseCommand {
     const latestRelease = await this.fetchLatestRelease();
 
     await this.downloadProject(cloneDir, latestRelease.tarballUrl);
+    this.span?.addEvent('Project downloaded');
     await this.loadEnvs(cloneDir);
+    this.span?.addEvent('Envs set');
     await this.installDeps(cloneDir);
+    this.span?.addEvent('Dependencies installed');
 
     const startAppMsg = this.getStartAppMessage();
     this.log(startAppMsg);

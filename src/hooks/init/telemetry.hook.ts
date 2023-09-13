@@ -1,11 +1,12 @@
 import { Hook } from '@oclif/core';
 
+import { SB_TELEMETRY_DISABLED } from '../../config';
 import { provider } from '../../utils/telemetry';
 
 const telemetryHook: Hook<'init'> = async function (options) {
-  console.log(`example init hook running before ${options.id}`);
-  provider.register();
-  console.log('Telemetry registered');
+  if (!SB_TELEMETRY_DISABLED) {
+    provider.register();
+  }
 };
 
 export default telemetryHook;
