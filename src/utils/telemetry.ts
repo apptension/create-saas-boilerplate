@@ -1,3 +1,5 @@
+import os from 'node:os';
+
 import { DiagConsoleLogger, DiagLogLevel, diag } from '@opentelemetry/api';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { Resource } from '@opentelemetry/resources';
@@ -22,6 +24,9 @@ export const provider = new NodeTracerProvider({
   resource: Resource.default().merge(
     new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: 'create-saas-boilerplate',
+      [SemanticResourceAttributes.OS_TYPE]: os.type(),
+      [SemanticResourceAttributes.OS_DESCRIPTION]: os.release(),
+      [SemanticResourceAttributes.OS_VERSION]: os.version(),
     })
   ),
 });
