@@ -21,7 +21,7 @@ import { prepareInitDirectory, removeGit } from '../../utils/dirs';
 import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../utils/env-loader';
 import { checkSystemReqs } from '../../utils/system-check';
 
-export default class Init extends BaseCommand {
+export default class Init extends BaseCommand<typeof Init> {
   static description = `Initialize new ${PROJECT_NAME} project`;
 
   static examples = [`<%= config.bin %> <%= command.id %>`];
