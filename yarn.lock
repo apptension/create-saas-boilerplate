@@ -922,6 +922,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@oclif/core@npm:^2.15.0":
+  version: 2.15.0
+  resolution: "@oclif/core@npm:2.15.0"
+  dependencies:
+    "@types/cli-progress": ^3.11.0
+    ansi-escapes: ^4.3.2
+    ansi-styles: ^4.3.0
+    cardinal: ^2.1.1
+    chalk: ^4.1.2
+    clean-stack: ^3.0.1
+    cli-progress: ^3.12.0
+    debug: ^4.3.4
+    ejs: ^3.1.8
+    get-package-type: ^0.1.0
+    globby: ^11.1.0
+    hyperlinker: ^1.0.0
+    indent-string: ^4.0.0
+    is-wsl: ^2.2.0
+    js-yaml: ^3.14.1
+    natural-orderby: ^2.0.3
+    object-treeify: ^1.1.33
+    password-prompt: ^1.1.2
+    slice-ansi: ^4.0.0
+    string-width: ^4.2.3
+    strip-ansi: ^6.0.1
+    supports-color: ^8.1.1
+    supports-hyperlinks: ^2.2.0
+    ts-node: ^10.9.1
+    tslib: ^2.5.0
+    widest-line: ^3.1.0
+    wordwrap: ^1.0.0
+    wrap-ansi: ^7.0.0
+  checksum: a4ef8ad00d9bc7cb48e5847bad7def6947f913875f4b0ecec65ab423a3c2a82c87df173c709c3c25396d545f60d20d17d562c474f66230d76de43061ce22ba90
+  languageName: node
+  linkType: hard
+
 "@oclif/plugin-help@npm:^5.2.14":
   version: 5.2.14
   resolution: "@oclif/plugin-help@npm:5.2.14"
@@ -942,12 +978,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/plugin-version@npm:^1.3.7":
-  version: 1.3.7
-  resolution: "@oclif/plugin-version@npm:1.3.7"
+"@oclif/plugin-version@npm:^1.3.10":
+  version: 1.3.10
+  resolution: "@oclif/plugin-version@npm:1.3.10"
   dependencies:
-    "@oclif/core": ^2.9.3
-  checksum: 69b9b2a24428befb1e732a8a4ceb84ec226ce181c9f583565f142de4bc715075d0ae2ed1cdebd89e98b8cb5f680d899e9961a809c01da4f704a1cd2610dcdc60
+    "@oclif/core": ^2.15.0
+  checksum: 74c35840ad2f104b459431820c4c2fcc03741e2695e0eede08eda051eca7492b037e33be039b1c85a8b54713a681664924639b6c2d0af71e3e93aa0a860a5a12
   languageName: node
   linkType: hard
 
@@ -3056,7 +3092,7 @@ __metadata:
     "@apptension/saas-boilerplate-telemetry": 1.0.3
     "@oclif/core": ^2.10.0
     "@oclif/plugin-help": ^5.2.14
-    "@oclif/plugin-version": ^1.3.7
+    "@oclif/plugin-version": ^1.3.10
     "@oclif/test": ^2.3.33
     "@opentelemetry/api": ^1.6.0
     "@opentelemetry/exporter-trace-otlp-proto": ^0.43.0
