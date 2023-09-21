@@ -82,7 +82,7 @@
       }
     },
     "hooks": {
-      "init": "./src/hooks/init/telemetry.hook"
+      "init": "dist/hooks/init/telemetry.hook"
     }
   },
   "scripts": {
