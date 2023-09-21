@@ -81,7 +81,7 @@ export default class Init extends BaseCommand<typeof Init> {
   private async fetchLatestRelease(): Promise<{ tagName: string; tarballUrl: string }> {
     ux.action.start('Fetching latest release');
     const response = await fetch(`https://api.github.com/repos/${GH_REPO_OWNER}/${GH_REPO_NAME}/releases/latest`);
-    const release = await response.json();
+    const release = (await response.json()) as any;
     ux.action.stop();
     const tagName = release.tag_name;
     this.log(`Latest release: ${tagName}`);
