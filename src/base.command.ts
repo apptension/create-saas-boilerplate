@@ -45,7 +45,9 @@ export abstract class BaseCommand<T extends typeof Command> extends Command {
     let result;
     try {
       // remove redirected env var to allow subsessions to run autoupdated client
-      delete process.env[this.config.scopedEnvVarKey('REDIRECTED')];
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.removeEnvVar('REDIRECTED');
       await this.init();
 
       result = await (!SB_TELEMETRY_DISABLED && this.tracer
