@@ -13,11 +13,18 @@ import tar from 'tar';
 
 import { GH_REPO_NAME, GH_REPO_OWNER } from '../../../src/config';
 import * as dirsUtils from '../../../src/utils/dirs';
-import { BackendEnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../../src/utils/env-loader';
+import {
+  BackendEnvLoaderStorage,
+  ContentfulEnvLoaderStorage,
+  RootEnvLoaderStorage,
+  WebappEnvLoaderStorage,
+  WorkersEnvLoaderStorage,
+} from '../../../src/utils/env-loader';
 import * as systemCheck from '../../../src/utils/system-check';
 
 describe('init', () => {
   let backendEnvLoaderStub: sinon.SinonStub;
+  let contentfulEnvLoaderStub: sinon.SinonStub;
   let rootEnvLoaderStub: sinon.SinonStub;
   let workersEnvLoaderStub: sinon.SinonStub;
   let webappEnvLoaderStub: sinon.SinonStub;
@@ -59,7 +66,7 @@ describe('init', () => {
     tarExtractStub = sinon.stub(tar, 'extract').callsFake(() => new PassThrough().end().destroy());
 
     backendEnvLoaderStub = sinon
-      .stub(BackendEnvLoader.prototype, 'getSharedEnvsContent')
+      .stub(BackendEnvLoaderStorage.prototype, 'getSharedEnvsContent')
       .callsFake(async () =>
         Buffer.from(
           'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=<CHANGE_ME>\n' +
@@ -73,11 +80,21 @@ describe('init', () => {
       );
 
     rootEnvLoaderStub = sinon
-      .stub(RootEnvLoader.prototype, 'getSharedEnvsContent')
+      .stub(RootEnvLoaderStorage.prototype, 'getSharedEnvsContent')
       .callsFake(async () => Buffer.from('PROJECT_NAME=saas\n'));
 
     workersEnvLoaderStub = sinon
-      .stub(WorkersEnvLoader.prototype, 'getSharedEnvsContent')
+      .stub(WorkersEnvLoaderStorage.prototype, 'getSharedEnvsContent')
+      .callsFake(async () =>
+        Buffer.from(
+          'CONTENTFUL_SPACE_ID=<CHANGE_ME>\n' +
+            'CONTENTFUL_ACCESS_TOKEN=<CHANGE_ME>\n' +
+            'CONTENTFUL_ENVIRONMENT=<CHANGE_ME>'
+        )
+      );
+
+    contentfulEnvLoaderStub = sinon
+      .stub(ContentfulEnvLoaderStorage.prototype, 'getSharedEnvsContent')
       .callsFake(async () =>
         Buffer.from(
           'CONTENTFUL_SPACE_ID=<CHANGE_ME>\n' +
@@ -87,7 +104,7 @@ describe('init', () => {
       );
 
     webappEnvLoaderStub = sinon
-      .stub(WebappEnvLoader.prototype, 'getSharedEnvsContent')
+      .stub(WebappEnvLoaderStorage.prototype, 'getSharedEnvsContent')
       .callsFake(async () =>
         Buffer.from(
           'VITE_CONTENTFUL_SPACE=<CHANGE_ME>\n' +
@@ -148,6 +165,7 @@ describe('init', () => {
     .exit(0)
     .it('calls expected env loaders', () => {
       sinon.assert.calledOnceWithExactly(backendEnvLoaderStub);
+      sinon.assert.calledOnceWithExactly(contentfulEnvLoaderStub);
       sinon.assert.calledOnceWithExactly(workersEnvLoaderStub);
       sinon.assert.calledOnceWithExactly(webappEnvLoaderStub);
       sinon.assert.calledOnceWithExactly(rootEnvLoaderStub);
