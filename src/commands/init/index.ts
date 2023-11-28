@@ -18,7 +18,15 @@ import {
   PROJECT_NAME,
 } from '../../config';
 import { prepareInitDirectory, removeGit } from '../../utils/dirs';
-import { BackendEnvLoader, EnvLoader, RootEnvLoader, WebappEnvLoader, WorkersEnvLoader } from '../../utils/env-loader';
+import {
+  BackendEnvLoaderStorage,
+  ContentfulEnvLoaderStorage,
+  EnvLoaderStorage,
+  EnvLoaderUI,
+  RootEnvLoaderStorage,
+  WebappEnvLoaderStorage,
+  WorkersEnvLoaderStorage,
+} from '../../utils/env-loader';
 import { checkSystemReqs } from '../../utils/system-check';
 
 export default class Init extends BaseCommand<typeof Init> {
@@ -117,15 +125,19 @@ export default class Init extends BaseCommand<typeof Init> {
 This step will set up all environment variables.
 For more details visit: \u001B[34mhttps://docs.demo.saas.apptoku.com/api-reference/env\u001B[0m.\n`);
 
-    const envLoaders: Array<EnvLoader> = [
-      new RootEnvLoader(),
-      new BackendEnvLoader(),
-      new WorkersEnvLoader(),
-      new WebappEnvLoader(),
+    const envLoaders: Array<EnvLoaderStorage> = [
+      new RootEnvLoaderStorage(),
+      new BackendEnvLoaderStorage(),
+      new ContentfulEnvLoaderStorage(),
+      new WorkersEnvLoaderStorage(),
+      new WebappEnvLoaderStorage(),
     ];
 
+    const loaderUI = new EnvLoaderUI(this);
+    await loaderUI.load();
+
     for (const loader of envLoaders) {
-      await loader.load(projectPath); // eslint-disable-line no-await-in-loop
+      await loader.load(projectPath, loaderUI); // eslint-disable-line no-await-in-loop
     }
   }
 

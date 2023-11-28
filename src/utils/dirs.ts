@@ -47,23 +47,3 @@ export const readEnvFile = async (envFilePath: string, required = false): Promis
 
   return fs.readFile(envFilePath);
 };
-
-export const parseEnvFile = (contents: Buffer | null): Record<string, unknown> => {
-  if (!contents) {
-    return {};
-  }
-
-  const lines = contents.toString().split('\n');
-  let result = {};
-
-  for (const line of lines) {
-    const pattern = new RegExp(/(.+)=(.+)/);
-    const groups = line.match(pattern);
-
-    if (groups) {
-      result = { ...result, [groups[1]]: groups[2] };
-    }
-  }
-
-  return result;
-};
