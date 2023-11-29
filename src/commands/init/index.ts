@@ -39,7 +39,7 @@ export default class Init extends BaseCommand<typeof Init> {
   };
 
   static args = {
-    path: Args.string({ description: 'Directory name where to initialize project', required: true, default: '.' }),
+    path: Args.string({ description: 'Directory name where to initialize project', required: true }),
   };
 
   async run(): Promise<void> {
