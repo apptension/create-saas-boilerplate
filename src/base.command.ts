@@ -40,7 +40,7 @@ export abstract class BaseCommand<T extends typeof Command> extends Command {
     }
   }
 
-  async _run<T>() {
+  async _run<T>(): Promise<any> {
     let err;
     let result;
     try {
