@@ -192,7 +192,7 @@ export class EnvLoaderUI {
     protected promptConfig: EnvTemplateConfig = envPromptConfig
   ) {}
 
-  async load() {
+  async load(): Promise<void> {
     // eslint-disable-next-line guard-for-in
     for (const sectionKey in this.promptConfig) {
       const envSection = this.promptConfig[sectionKey];
@@ -207,7 +207,7 @@ export class EnvLoaderUI {
     }
   }
 
-  getValue(name: string) {
+  getValue(name: string): string | null {
     const v = this.envs[name] ?? null;
     if (v !== null) {
       return v;
