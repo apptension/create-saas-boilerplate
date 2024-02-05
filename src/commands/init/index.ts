@@ -152,13 +152,13 @@ For more details visit: \u001B[34mhttps://docs.demo.saas.apptoku.com/api-referen
 ——————————————————————————————————————————————————————————————————————————————————————————————————————
 Initialization completed! 🚀 To start the application, please refer to the following commands:
 
+| \u001B[1mStart both: backend and webapp:\u001B[0m
+|
+| \u001B[34mpnpm saas up\u001B[0m
+|
 | \u001B[1mStart backend:\u001B[0m
 |
-| \u001B[34mpnpm nx run core:docker-compose:up\u001B[0m
-|
-| or a shorter version:
-|
-| \u001B[34mmake up\u001B[0m
+| \u001B[34mpnpm saas backend up\u001B[0m
 |
 | This will run docker containers for all the backend services in the detached mode.
 |
