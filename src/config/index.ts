@@ -12,8 +12,11 @@ export const GITHUB_REPOSITORY = `https://github.com/${GH_REPO_OWNER}/${GH_REPO_
 
 const IS_CI = Boolean(process.env.CI ?? false);
 
-export const SB_TELEMETRY_DISABLED = IS_CI || (Boolean(process.env.SB_TELEMETRY_DISABLED) ?? false);
-export const SB_TELEMETRY_DEBUG = IS_CI || (Boolean(process.env.SB_TELEMETRY_DEBUG) ?? false);
+const envTrueValues = new Set(['1', 'true']);
+
+export const SB_TELEMETRY_DISABLED =
+  IS_CI || envTrueValues.has((process.env.SB_TELEMETRY_DISABLED ?? 'false').toLowerCase());
+export const SB_TELEMETRY_DEBUG = IS_CI || envTrueValues.has((process.env.SB_TELEMETRY_DEBUG ?? 'false').toLowerCase());
 const [telemetryUrl, telemetryKey] = telemetryConfig;
 export const SB_TELEMETRY_URL = process.env.SB_TELEMETRY_URL ?? telemetryUrl;
 export const SB_TELEMETRY_KEY = process.env.SB_TELEMETRY_KEY ?? telemetryKey;
