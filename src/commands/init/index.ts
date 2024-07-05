@@ -170,13 +170,13 @@ Initialization completed! 🚀 To start the application, please refer to the fol
 |
 | \u001B[1mStart webapp:\u001B[0m
 |
-| \u001B[34mpnpm nx start webapp\u001B[0m
+| \u001B[34mpnpm saas webapp up\u001B[0m
 |
 | Web app is running on \u001B[34mhttp://localhost:3000\u001B[0m.
 |
 | \u001B[1mStart documentation:\u001B[0m
 |
-| \u001B[34mpnpm nx start docs\u001B[0m
+| \u001B[34mpnpm saas docs up\u001B[0m
 |
 | Docs app is running on \u001B[34mhttp://localhost:3006\u001B[0m.
 
